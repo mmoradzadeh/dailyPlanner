@@ -20,4 +20,61 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
+
+  const mainContainer = document.getElementById ("mainContainer");
+
+  for (let index = 0; index < 24; index++) {
+    const element = 24;
+    
+  }
+  mainContainer = blockCreater(2);
+
 });
+
+
+function blockCreater(blockType){
+  const timeBlock = document.createElement("DIV");
+  const timeIndicator = document.createElement("DIV");
+  const textBlock = document.createElement("TEXTAREA");
+  const buttonBlock = document.createElement("BUTTON");
+  const iBlock = document.createElement("i");
+
+  // Define CSS classes for the elements
+
+  let divClass = "row time-block";
+  let timeClass = "col-2 col-md-1 hour text-center py-3";
+  let textClass = "col-8 col-md-10 description";
+  let buttonClass = "btn saveBtn col-2 col-md-1";
+  let iBlocKClass = "fas fa-save";
+
+  if (blockType == 0)
+    divClass = divClass + "past";
+  else if (blockType == 1)
+    divClass = divClass + "present";
+  else if (blockType == 2)
+    divClass = divClass + "future";
+
+  // Set the rest of the attributes
+
+  iBlock.ariaHidden = "true";
+  buttonBlock.ariaLabel = "save";
+  textBlock.rows = "3";
+  
+  // Set the classes on elements
+
+  timeBlock.setAttribute("class", divClass);
+  timeIndicator.setAttribute("class", timeClass)
+  textBlock.setAttribute("class", textClass);
+  buttonBlock.setAttribute("class", buttonClass);
+  iBlock.setAttribute("class", iBlocKClass);
+  
+  // Structure the elements
+
+  buttonBlock.appendChild(iBlock);
+  timeBlock.appendChild(timeIndicator);
+  timeBlock.appendChild(textBlock);
+  timeBlock.appendChild(buttonBlock);
+  
+  return timeBlock;
+}
