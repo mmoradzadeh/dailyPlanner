@@ -23,17 +23,30 @@ $(function () {
 
 
   const mainContainer = document.getElementById ("mainContainer");
+  
+  const currentHour = dayjs().hour();
 
-  for (let index = 0; index < 24; index++) {
-    const element = 24;
+
+  for (let index = 9; index <= 17; index++) {
     
+    let hourStatus;
+    if (index == currentHour)
+      hourStatus = 1;
+    else if (index > currentHour)
+      hourStatus = 2;
+    else if (index < currentHour)
+      hourStatus = 0;
+
+
+
+    const timeBlock = blockCreater(hourStatus, index);
+    mainContainer.appendChild(timeBlock);  
   }
-  mainContainer = blockCreater(2);
 
 });
 
 
-function blockCreater(blockType){
+function blockCreater(blockType, hour){
   const timeBlock = document.createElement("DIV");
   const timeIndicator = document.createElement("DIV");
   const textBlock = document.createElement("TEXTAREA");
@@ -42,7 +55,7 @@ function blockCreater(blockType){
 
   // Define CSS classes for the elements
 
-  let divClass = "row time-block";
+  let divClass = "row time-block ";
   let timeClass = "col-2 col-md-1 hour text-center py-3";
   let textClass = "col-8 col-md-10 description";
   let buttonClass = "btn saveBtn col-2 col-md-1";
@@ -60,6 +73,18 @@ function blockCreater(blockType){
   iBlock.ariaHidden = "true";
   buttonBlock.ariaLabel = "save";
   textBlock.rows = "3";
+
+  // Set the time text
+
+  var timeString;
+
+  if (hour < 12)
+    timeString = hour + ' AM';
+  else{
+    timeString = hour == 12 ? hour = 12 + " PM" : (hour-12) + ' PM';
+  }
+
+  timeIndicator.innerHTML = timeString;
   
   // Set the classes on elements
 
