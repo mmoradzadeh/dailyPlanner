@@ -20,15 +20,29 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-
+  let sampleNote = "type your schedule here";
+  
 
   const mainContainer = document.getElementById ("mainContainer");
   
+  // var isoWeek = require('dayjs/plugin/isoWeek');
+  // dayjs.extend(isoWeek);
+  // dayjs().isoWeek()
+  // dayjs().isoWeekday()
+  // dayjs().isoWeekYear()
+
+
   const currentHour = dayjs().hour();
+  const currentDate = (dayjs().date()) + " / " + (dayjs().month()+1) + " / " + (dayjs().year()) ;
+
+
+  //set the currrent date
+
+  document.getElementById("currentDay").innerHTML = currentDate;
 
 
   for (let index = 9; index <= 17; index++) {
-    
+  
     let hourStatus;
     if (index == currentHour)
       hourStatus = 1;
@@ -37,14 +51,21 @@ $(function () {
     else if (index < currentHour)
       hourStatus = 0;
 
-
-
     const timeBlock = blockCreater(hourStatus, index);
     mainContainer.appendChild(timeBlock);  
   }
 
 });
 
+function loadSchedule(hour) {
+  return localStorage.getItem(`schedule-${hour}`);
+}
+
+function saveSchedule(hour, text) {
+  console.log(`${hour}: ${text}`);
+
+  localStorage.setItem(`schedule-${hour}`, `${text}`);
+}
 
 function blockCreater(blockType, hour){
   const timeBlock = document.createElement("DIV");
@@ -85,6 +106,12 @@ function blockCreater(blockType, hour){
   }
 
   timeIndicator.innerHTML = timeString;
+
+  // Set click event listeners on buttons
+
+  buttonBlock.addEventListener('click', function() {
+    saveSchedule(hour, textBlock.value);
+  });
   
   // Set the classes on elements
 
@@ -101,5 +128,8 @@ function blockCreater(blockType, hour){
   timeBlock.appendChild(textBlock);
   timeBlock.appendChild(buttonBlock);
   
+  // loading past information
+  textBlock.innerHTML = loadSchedule(hour);
+
   return timeBlock;
 }
